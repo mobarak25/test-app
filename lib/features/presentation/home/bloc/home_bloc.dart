@@ -38,7 +38,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     // Data get from server==========
     final posts = await _apiRepo.get<FlutterRepository>(
-        endpoint: userRepositories(query: "Flutter", pageNo: state.page));
+        endpoint: userRepositories(
+            query: "flutter", pageNo: state.page, sort: 'stars'));
 
     if (posts != null) {
       emit(state.copyWith(flutterRepository: posts));
@@ -52,13 +53,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> _pageIncrement(
       PageIncrement event, Emitter<HomeState> emit) async {
     int totalPage = state.page + 1;
-    //I put here static value 500 it's show first 1000 items from server
-    if (totalPage <= 500) {
+    //I put here static value 100 it's show first 1000 items from server
+    if (totalPage <= 100) {
       if (!state.isLoading) {
         emit(state.copyWith(isLoading: true, page: totalPage));
 
         final productPagination = await _apiRepo.get<FlutterRepository>(
-            endpoint: userRepositories(query: "flutter", pageNo: totalPage));
+            endpoint: userRepositories(
+                query: "flutter", pageNo: totalPage, sort: 'stars'));
 
         emit(state.copyWith(isLoading: false));
 
