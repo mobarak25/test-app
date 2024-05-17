@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/core/utils/colors.dart';
 import 'package:test_app/core/utils/text_styles.dart';
@@ -73,11 +74,13 @@ class DetailsView extends StatelessWidget {
                           textStyle: bBody1M,
                           fontColor: bGray700,
                         ),
-                        SizedBox(
-                          width: 100,
-                          child: NetworkImageB(
-                            imageUrl: state.itemDetails.owner!.avatarUrl!,
-                            iconSize: 30,
+                        Flexible(
+                          child: SizedBox(
+                            width: 100,
+                            child: NetworkImageB(
+                              imageUrl: state.itemDetails.owner!.avatarUrl!,
+                              iconSize: 30,
+                            ),
                           ),
                         ),
                       ],
