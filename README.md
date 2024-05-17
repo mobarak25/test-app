@@ -16,12 +16,12 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-1. fist project architecture ready
-2. git repo ready
-3. add base url in .env file
-4. create server End point
-5. design Item card
-6. fetch data from API with State management "Bloc"
+1. First project architecture ready
+2. Git repo ready
+3. Ddd base url in .env file
+4. Create server End point
+5. Design Item card
+6. Fetch data from API with State management "Bloc"
 7. emit data to the bloc state
 8. Dispaly data to the Home screen in card
 9. create Details Screen and design
