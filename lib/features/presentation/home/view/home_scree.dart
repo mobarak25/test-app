@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
                   padding: const EdgeInsets.all(0),
                   children: [
                     const SizedBox(
-                      height: 50,
+                      height: 20,
                     ),
                     ...List.generate(
                       state.flutterRepository.items!.length,
