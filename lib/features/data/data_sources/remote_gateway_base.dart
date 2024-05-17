@@ -6,7 +6,6 @@ import 'package:test_app/core/error/custom_exception.dart';
 import 'package:test_app/core/ioc/global.dart';
 import 'package:test_app/core/navigator/iflutter_navigator.dart';
 import 'package:test_app/core/utils/utilities.dart';
-import 'package:test_app/features/data/data_sources/local_keys.dart';
 import 'package:test_app/features/domain/entities/entity_map/entity_map.dart';
 import 'package:test_app/features/domain/repositories/local_storage_repo.dart';
 import 'package:http/http.dart' as http;
@@ -19,7 +18,6 @@ class RemoteGatewayBase {
   LocalStorageRepo get _localStorageRepo => getIt<LocalStorageRepo>();
 
   Future<T?> getMethod<T, K>({required String endpoint}) async {
-    print(endpoint);
     dynamic responseJson;
     final headers = _createHeaders();
     try {

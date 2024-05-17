@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:test_app/core/ioc/global.dart';
-import 'package:test_app/core/navigator/iflutter_navigator.dart';
 import 'package:test_app/core/utils/colors.dart';
 import 'package:test_app/core/utils/text_styles.dart';
 import 'package:test_app/core/utils/utilities.dart';
@@ -10,10 +7,7 @@ import 'package:test_app/core/widgets/body.dart';
 import 'package:test_app/core/widgets/network_image.dart';
 import 'package:test_app/core/widgets/text.dart';
 import 'package:test_app/features/domain/entities/flutter_repository_response.dart';
-import 'package:test_app/features/domain/repositories/api_repo.dart';
-import 'package:test_app/features/domain/repositories/local_storage_repo.dart';
 import 'package:test_app/features/presentation/details/bloc/details_bloc.dart';
-import 'package:test_app/features/presentation/home/bloc/home_bloc.dart';
 
 class DetailsScreen extends StatelessWidget {
   const DetailsScreen({super.key, required this.details});
@@ -37,9 +31,6 @@ class DetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final bloc = context.read<DetailsBloc>();
-
     return BlocBuilder<DetailsBloc, DetailsState>(
       builder: (context, state) {
         return Body(
@@ -91,6 +82,7 @@ class DetailsView extends StatelessWidget {
                         ),
                       ],
                     ),
+                    const SizedBox(height: 15),
                     Row(
                       children: [
                         const TextB(
