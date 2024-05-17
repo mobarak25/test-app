@@ -19,6 +19,7 @@ class RemoteGatewayBase {
   LocalStorageRepo get _localStorageRepo => getIt<LocalStorageRepo>();
 
   Future<T?> getMethod<T, K>({required String endpoint}) async {
+    print(endpoint);
     dynamic responseJson;
     final headers = _createHeaders();
     try {
@@ -125,8 +126,8 @@ class RemoteGatewayBase {
     return <String, String>{
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization':
-          'Bearer ${token ?? _localStorageRepo.read(key: tokenDB) ?? ''}',
+      // 'Authorization':
+      //     'Bearer ${token ?? _localStorageRepo.read(key: tokenDB) ?? ''}',
     };
   }
 
@@ -149,7 +150,7 @@ class RemoteGatewayBase {
   }
 
   _handleResponse(int statusCode, String body) {
-    // print(statusCode);
+    print(statusCode);
     // log(body);
     final navigator = getIt<IFlutterNavigator>();
 

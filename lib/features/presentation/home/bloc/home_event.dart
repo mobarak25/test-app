@@ -8,3 +8,5 @@ sealed class HomeEvent extends Equatable {
 }
 
 class GetUser extends HomeEvent {}
+
+class PageIncrement extends HomeEvent {}
