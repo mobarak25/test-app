@@ -6,7 +6,6 @@ import 'package:test_app/core/utils/colors.dart';
 import 'package:test_app/core/utils/text_styles.dart';
 import 'package:test_app/core/widgets/body.dart';
 import 'package:test_app/core/widgets/text.dart';
-import 'package:test_app/core/widgets/text_field.dart';
 import 'package:test_app/features/domain/repositories/api_repo.dart';
 import 'package:test_app/features/domain/repositories/local_storage_repo.dart';
 import 'package:test_app/features/presentation/home/bloc/home_bloc.dart';
@@ -33,8 +32,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final searchTextEditingController = TextEditingController();
-    final searchFocusNode = FocusNode();
     final size = MediaQuery.of(context).size;
     final bloc = context.read<HomeBloc>();
     final scroll = ScrollController();
@@ -58,6 +55,10 @@ class HomeView extends StatelessWidget {
                     ...List.generate(
                       state.flutterRepository.items!.length,
                       (index) => RepositoryCard(
+                        press: () {
+                          bloc.add(GoToDetails(
+                              details: state.flutterRepository.items![index]));
+                        },
                         item: state.flutterRepository.items![index],
                       ),
                     ),

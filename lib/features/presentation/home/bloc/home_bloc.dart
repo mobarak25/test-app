@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_app/core/navigator/iflutter_navigator.dart';
-import 'package:test_app/core/utils/utilities.dart';
+import 'package:test_app/features/data/data_sources/local_keys.dart';
 import 'package:test_app/features/data/data_sources/remote_constants.dart';
 import 'package:test_app/features/domain/entities/flutter_repository_response.dart';
 import 'package:test_app/features/domain/repositories/api_repo.dart';
 import 'package:test_app/features/domain/repositories/local_storage_repo.dart';
+import 'package:test_app/features/presentation/details/view/details_screen.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -17,6 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : super(HomeInitial()) {
     on<GetUser>(_getUser);
     on<PageIncrement>(_pageIncrement);
+    on<GoToDetails>(_goToDetails);
 
     add(GetUser());
   }
@@ -26,24 +28,37 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final LocalStorageRepo _localStorageRepo;
 
   FutureOr<void> _getUser(GetUser event, Emitter<HomeState> emit) async {
+    // Try to read from Loal Stroage==========
+    final repositoryFromDB = await _localStorageRepo
+        .readModel<FlutterRepository>(key: flutterRepositoryDB);
+
+    if (repositoryFromDB != null) {
+      emit(state.copyWith(flutterRepository: repositoryFromDB));
+    }
+
+    // Data get from server==========
     final posts = await _apiRepo.get<FlutterRepository>(
-        endpoint: userRepositories(pageNo: state.page));
+        endpoint: userRepositories(query: "Flutter", pageNo: state.page));
 
     if (posts != null) {
       emit(state.copyWith(flutterRepository: posts));
+
+      // write data to local stroage==========
+      await _localStorageRepo.writeModel(
+          key: flutterRepositoryDB, value: posts);
     }
   }
 
   FutureOr<void> _pageIncrement(
       PageIncrement event, Emitter<HomeState> emit) async {
     int totalPage = state.page + 1;
-    //I put here static value 500 it's show first 1000 items
-    if (totalPage <= 3) {
+    //I put here static value 500 it's show first 1000 items from server
+    if (totalPage <= 500) {
       if (!state.isLoading) {
         emit(state.copyWith(isLoading: true, page: totalPage));
 
         final productPagination = await _apiRepo.get<FlutterRepository>(
-            endpoint: userRepositories(pageNo: totalPage));
+            endpoint: userRepositories(query: "flutter", pageNo: totalPage));
 
         emit(state.copyWith(isLoading: false));
 
@@ -57,5 +72,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else if (!state.isLoading) {
       emit(state.copyWith(isEndList: true));
     }
+  }
+
+  FutureOr<void> _goToDetails(GoToDetails event, Emitter<HomeState> emit) {
+    _iFlutterNavigator.push(DetailsScreen.route(data: event.details));
   }
 }

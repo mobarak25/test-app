@@ -109,7 +109,7 @@ class Item {
   final String? defaultBranch;
   final double? score;
 
-  Item({
+  const Item({
     this.id,
     this.nodeId,
     this.name,
